@@ -12,13 +12,28 @@ usage() {
   echo ""
   echo "Commands:"
   echo "    timestamp  Set a files last modified time to match it's git commit timestamp."
+  echo "    load   Loads a docker image from '~/.docker/image.tar'"
+  echo "    save   Saves the docker image to '~/.docker/image.tar'"
   echo "    build  Build a docker image from this repo. \$EXTRA_BUILD_ARGS can be set to add additional build options"
   echo "    tag    Tag the docker image from this repo with the git sha and branch."
   echo "    push   Push the built image to the docker registry. \$DOCKER_EMAIL, \$DOCKER_USER, and \$DOCKER_PASS are required"
   exit 1
 }
 
-# Build builds the docker image and tags it with the git sha and branch.
+
+load() {
+  if [[ -e ~/.docker/image.tar ]]; then
+    docker load -i ~/.docker/image.tar
+  fi
+}
+
+save() {
+  declare repo="$1"
+  mkdir -p ~/.docker
+  docker save "$repo" > ~/.docker/image.tar
+}
+
+# Build builds the docker image and tags it.
 build() {
   declare repo="$1"
   docker build -t "$repo" $EXTRA_BUILD_ARGS .
@@ -58,6 +73,12 @@ timestamp() {
 }
 
 case "$1" in
+  "load")
+    load
+    ;;
+  "save")
+    save "$REPO"
+    ;;
   "build")
     build "$REPO"
     ;;
