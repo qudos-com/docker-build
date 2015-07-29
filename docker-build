@@ -18,8 +18,12 @@ usage() {
 
 # Build builds the docker image and tags it with the git sha and branch.
 build() {
+  docker build $EXTRA_BUILD_ARGS .
+}
+
+tag() {
   declare repo="$1" sha="$CIRCLE_SHA1" branch="$CIRCLE_BRANCH"
-  docker build --no-cache -t "$repo" $EXTRA_BUILD_ARGS .
+  docker tag --force "$repo"
   docker tag --force "$repo" "${repo}:${sha}"
   docker tag --force "$repo" "${repo}:${branch}"
 }
@@ -54,6 +58,9 @@ timestamp() {
 case "$1" in
   "build")
     build "$REPO"
+    ;;
+  "tag")
+    tag "$REPO"
     ;;
   "push")
     push "$REPO"
