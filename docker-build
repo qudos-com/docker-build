@@ -97,8 +97,8 @@ case "$1" in
     ;;
   "dependencies")
     load
-    build
-    save
+    build "$REPO"
+    save "$REPO"
     ;;
   *)
     usage
