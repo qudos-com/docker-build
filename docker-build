@@ -11,7 +11,9 @@ usage() {
   echo "    docker-build command"
   echo ""
   echo "Commands:"
-  echo "    build  Build a docker image from this repo and tag it with the git sha and branch. \$EXTRA_BUILD_ARGS can be set to add additional build options"
+  echo "    timestamp  Set a files last modified time to match it's git commit timestamp."
+  echo "    build  Build a docker image from this repo. \$EXTRA_BUILD_ARGS can be set to add additional build options"
+  echo "    tag    Tag the docker image from this repo with the git sha and branch."
   echo "    push   Push the built image to the docker registry. \$DOCKER_EMAIL, \$DOCKER_USER, and \$DOCKER_PASS are required"
   exit 1
 }
