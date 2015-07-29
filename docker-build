@@ -95,6 +95,11 @@ case "$1" in
       shift
     done
     ;;
+  "dependencies")
+    load
+    build
+    save
+    ;;
   *)
     usage
     ;;
